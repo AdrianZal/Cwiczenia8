@@ -10,11 +10,6 @@ public class ClientsService : IClientsService
     private readonly string _connectionString =
         "Data Source=db-mssql;Initial Catalog=2019SBD;Integrated Security=True;Trust Server Certificate=True";
 
-    public Task<List<ClientDTO>> GetClients()
-    {
-        throw new NotImplementedException();
-    }
-
 
     //Wyświetl wycieczki danego klienta
     public async Task<List<ClientTripDTO>> GetClientTrips(int id)
@@ -31,7 +26,6 @@ public class ClientsService : IClientsService
                     return null;
                 }
             }
-
             var query = $@"
                     SELECT 
                         t.IdTrip, t.Name, t.Description, t.DateFrom, t.DateTo, t.MaxPeople,
@@ -62,12 +56,10 @@ public class ClientsService : IClientsService
                     }
                 }
             }
-
             if (trips.Count == 0)
             {
                 return null;
             }
-
             return trips;
         }
     }
@@ -120,6 +112,8 @@ public class ClientsService : IClientsService
         }
     }
 
+    
+    //Rejestracja klienta na wycieczke
     public async Task<int> RegisterClientTrip(int id, int tripid)
     {
         using (SqlConnection conn = new SqlConnection(_connectionString))
@@ -159,7 +153,6 @@ public class ClientsService : IClientsService
                     throw new Exception($"Client is already registered for this trip");
                 }
             }
-            // Check if trip has available spots
             var capacityCheckQuery = @"
                     SELECT t.MaxPeople, COUNT(ct.IdClient) AS CurrentParticipants
                     FROM Trip t
@@ -203,7 +196,8 @@ public class ClientsService : IClientsService
             }
         }
     }
-
+    
+    //Usuwanie klienta z wyczieczki
     public async Task<int> DeleteClientTrip(int id, int tripid)
     {
         using (SqlConnection conn = new SqlConnection(_connectionString))
