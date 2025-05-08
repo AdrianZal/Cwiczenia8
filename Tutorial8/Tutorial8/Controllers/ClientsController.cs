@@ -34,8 +34,9 @@ namespace Tutorial8.Controllers
         [HttpPost]
         public async Task<IActionResult> AddClient([FromBody] ClientDTO clientDto)
         {
-            var clients = await _clientsService.GetClients();
-            return Ok(clients);
+            var client = await _clientsService.AddClient(clientDto);
+            if (client == null) return BadRequest("Client not added");
+            return Ok("Client added");
         }
     }
 }

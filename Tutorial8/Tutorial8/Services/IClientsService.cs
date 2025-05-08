@@ -7,5 +7,5 @@ public interface IClientsService
 {
     Task<List<ClientDTO>> GetClients();
     Task<List<ClientTripDTO>> GetClientsTrips(int id);
-    Task<ClientTripDTO> AddClient([FromBody] ClientDTO clientDto);
+    Task<ClientDTO> AddClient(ClientDTO clientDto);
 }
