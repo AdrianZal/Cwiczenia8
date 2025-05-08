@@ -24,9 +24,9 @@ namespace Tutorial8.Controllers
         }
 
         [HttpGet("{id}/trips")]
-        public async Task<IActionResult> GetClientsTrips(int id)
+        public async Task<IActionResult> GetClientTrips(int id)
         {
-            var clientsTrips = await _clientsService.GetClientsTrips(id);
+            var clientsTrips = await _clientsService.GetClientTrips(id);
             if (clientsTrips != null) return Ok(clientsTrips);
             return NotFound("Entry does not exist");
         }
@@ -37,6 +37,22 @@ namespace Tutorial8.Controllers
             var client = await _clientsService.AddClient(clientDto);
             if (client == null) return BadRequest("Client not added");
             return Ok("Client added");
+        }
+
+        [HttpPut("{id}/trips/{tripid}")]
+        public async Task<IActionResult> RegisterClientTrip(int id, int tripid)
+        {
+            var clientid = await _clientsService.RegisterClientTrip(id, tripid);
+            if (clientid==1) return Ok("Client was successfully registered for a trip");
+            return BadRequest();
+        }
+
+        [HttpDelete("{id}/trips/{tripid}")]
+        public async Task<IActionResult> DeleteClientTrip(int id, int tripid)
+        {
+            var clientid = await _clientsService.DeleteClientTrip(id, tripid);
+            if(clientid==1)return Ok("Client was successfully removed from trip");
+            return BadRequest();
         }
     }
 }
